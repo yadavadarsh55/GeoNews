@@ -1,0 +1,10 @@
+publish_task:
+  description: >
+    Take the approved Markdown content {content}.
+    1. Convert the Markdown to a simple HTML format for email.
+    2. Use the 'publish_via_gmail' tool of the Geonews MCP server to email the newsletters to the given recipients.
+    3. Recipient: List of the recipients {recipient_emails_list}
+    4. Subject: "The Geonews: Weekly Briefing"
+  expected_output: >
+    A confirmation message stating "Newsletter sent successfully to {recipient_emails_list}".
+  agent: newsletter_publisher

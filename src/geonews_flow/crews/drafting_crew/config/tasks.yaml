@@ -1,0 +1,59 @@
+draft_content_task:
+  description: >
+    0. IMPORTANT : if {feedback} is not "None", skip this task
+    1. specific date: {date} (Use this as the cutoff).
+    2. Use your tools 'fetch_news_headlines' and 'fetch_think_tanks_reports' to fetch news headlines from NewsAPI and Think Tank RSS feeds.
+    3. Compile a JSON-structured report containing the Headlines, Source, and URL of the news headlines and feeds.
+    4. Only use the above mentioned tools only.
+  expected_output: >
+    A structured JSON without markdown block of the fetched articles along with their headlines and source URLs.
+  agent: news_researcher
+
+analyze_content_task:
+  description: >
+    0. IMPORTANT : if {feedback} is not "None", skip this task
+    1. You need to analyze the fetched articles given from the 'fetch_and_scrape_task'
+    2. By analyzing you need to select the top news articles that is more relevant in context of India and its geopolitical context.
+    3. Select the relevant ones and discard the others. The selection rate should be near 70 pecentage.
+    4. Using the 'get_article_content' tool, fetch the full content of the selected articles and sotre it in the context feild.
+    4. Compile the JSON-strucuted report containing the selected articles and their fetched content.
+  expected_output: >
+    A structured JSON without markdown block of the selected articles along with their headlines and source URLs.
+  agent: news_analyst
+
+write_content_task:
+  description: >
+    Using the structured articles provided, craft the "Global Compass" newsletter. 
+    
+    1. **The Deep Dive (300 words)**: Identify the most disruptive story. 
+       Give it a cinematic headline. Explain the "Quiet Signal"—the part of 
+       the story everyone else is ignoring.
+       
+    2. **Radar Watch**: Write 3 punchy bullet points. Use "The Sleeping Giant," 
+       "The Regulatory Friction," and "The Tech Undercurrent" as themes. 
+       Make them sound like classified intelligence.
+       
+    3. **Delhi's Angle**: Explain the specific "India impact." Will this 
+       affect local startups, government policy, or the Rupee? 
+       Be bold with your analysis.
+    
+    IMPORTANT: {feedback}
+    If feedback is "None," start fresh with maximum creativity. 
+    If there is feedback, treat it as a directive from your Chief Editor and pivot accordingly.
+  expected_output: >
+    A professional, clean Markdown newsletter. 
+    Use horizontal rules (---) to separate sections. 
+    Use bolding for emphasis. 
+    No "corporate" jargon—keep it conversational but sharp.
+  agent: newsletter_writer
+
+review_task:
+  description: >
+    Review the draft. Check for factual accuracy and tone.
+    Only provide the JSON output for this task, not any other thing or review.
+    1. "content" : the content of the news letter
+    2. "status": either "APPROVED" or "REJECTED"
+    3. "feedback": specific instructions on what to fix (if rejected) or "None" (if approved).
+  expected_output: >
+    **IMPORTANT** The output should be a single JSON object without any markdown block like (''').
+  agent: quality_assurance_editor

@@ -1,0 +1,23 @@
+[project]
+name = "geonews_flow"
+version = "0.1.0"
+description = "geonews_flow using crewAI"
+authors = [{ name = "Adarsh Yadav", email = "adarshyadavsy@gmail.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[google-genai,tools]==1.7.2",
+    "fastmcp>=2.12.5",
+]
+
+[project.scripts]
+kickoff = "geonews_flow.main:kickoff"
+run_crew = "geonews_flow.main:kickoff"
+plot = "geonews_flow.main:plot"
+run_with_trigger = "geonews_flow.main:run_with_trigger"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "flow"
