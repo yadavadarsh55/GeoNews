@@ -1,10 +1,13 @@
 import json
+import datetime as dt
 from pydantic import BaseModel
 from crewai.flow.flow import Flow, listen, start, router
 from .crews.drafting_crew.drafting_crew import DraftingCrew
 from .crews.publishing_crew.publishing_crew import PublishingCrew
 
 MAX_RETRY = 3
+
+THRESHOLD_DATE = str(dt.date.today() - dt.timedelta(days=7))
 
 class GeoNewsFlowState(BaseModel):
 
@@ -65,10 +68,9 @@ class GeoNewsFlow(Flow[GeoNewsFlowState]):
         
         result = PublishingCrew().crew().kickoff(inputs={
             'content': self.state.content,
-            'recipient_emails_list': ["la8085978@gmail.com"] 
+            'recipient_emails_list': ["la8085978@gmail.com", "gupta.akshita299@gmail.com"] 
         })
         
-        print(result, flush=True)
         return result
 
     @listen("failed")
@@ -77,7 +79,7 @@ class GeoNewsFlow(Flow[GeoNewsFlowState]):
 
 
 def kickoff():
-    GeoNewsFlow().kickoff(inputs={"date": "2025-12-20"})
+    GeoNewsFlow().kickoff(inputs={"date": THRESHOLD_DATE})
 
 
 def plot():

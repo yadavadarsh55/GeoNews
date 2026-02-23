@@ -96,7 +96,7 @@ class DraftingCrew():
     def review_task(self) -> Task:
         return Task(
             config=self.tasks_config['review_task'],
-            output_pydantic=ReviewSchema,
+            output_json=ReviewSchema,
             guardrail=validate_json_output,
             guardrail_max_retries=3
         )

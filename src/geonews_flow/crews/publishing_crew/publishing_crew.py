@@ -15,7 +15,7 @@ geonews_mcp = MCPServerStdio(
                             "fastmcp,newsapi-python,feedparser,newspaper3k,lxml[html_clean]",
                             "fastmcp",
                             "run",
-                            "C:\\Users\\Ayush yadav\\Desktop\\GeoNews MCP\\main.py"
+                            "src\\geonews_flow\\tools\\mcpserver.py"
                         ],
                     env={
                         'NEWS_API_KEY' : os.environ.get('NEWS_API_KEY'),

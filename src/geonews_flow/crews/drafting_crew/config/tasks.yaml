@@ -23,37 +23,56 @@ analyze_content_task:
 
 write_content_task:
   description: >
-    Using the structured articles provided, craft the "Global Compass" newsletter. 
+    Using the structured articles provided, craft "The Geonews Weekly" newsletter. 
+    Your goal is to make this strictly professional yet highly engaging—think 'The Economist' meets a classified intelligence brief.
     
-    1. **The Deep Dive (300 words)**: Identify the most disruptive story. 
-       Give it a cinematic headline. Explain the "Quiet Signal"—the part of 
-       the story everyone else is ignoring.
-       
-    2. **Radar Watch**: Write 3 punchy bullet points. Use "The Sleeping Giant," 
-       "The Regulatory Friction," and "The Tech Undercurrent" as themes. 
-       Make them sound like classified intelligence.
-       
-    3. **Delhi's Angle**: Explain the specific "India impact." Will this 
-       affect local startups, government policy, or the Rupee? 
-       Be bold with your analysis.
+    **MANDATORY STRUCTURE:**
     
-    IMPORTANT: {feedback}
-    If feedback is "None," start fresh with maximum creativity. 
-    If there is feedback, treat it as a directive from your Chief Editor and pivot accordingly.
+    1. **The Executive Summary (TL;DR)**: 
+       - Start immediately with 3 distinct bullet points summarizing the entire edition.
+       - This allows busy readers to grasp the "Need to Know" in 10 seconds.
+       
+    2. **The Deep Dive (Feature Story)**: 
+       - Select the single most disruptive story. 
+       - Write a compelling 250-300 word narrative. 
+       - Use specific sub-headers to break up the text.
+       - Focus on the "Quiet Signal"—the hidden implication everyone else is missing.
+       
+    3. **Global Radar (Rapid Fire)**: 
+       - A dedicated section for other important news. 
+       - Format as a bulleted list. 
+       - **Style:** "**[Region/Topic]:** [One sentence punchy update]."
+       - Example: "**South China Sea:** New maritime militia deployments suggest escalation..."
+       
+    4. **The Delhi Angle (India Impact)**: 
+       - Explain the specific implications for India. 
+       - Does this affect the Rupee, border security, or trade policy? Be bold and specific.
+    
+    **TONE & STYLE GUIDELINES:**
+    - **Skimmable:** Use **Bold** for key names, entities, and "impact" phrases.
+    - **Narrative:** Do not just report facts; weave a story.
+    - **Feedback:** If '{feedback}' is provided, treat it as a mandatory correction order. If "None", prioritize maximum impact.
   expected_output: >
-    A professional, clean Markdown newsletter. 
-    Use horizontal rules (---) to separate sections. 
-    Use bolding for emphasis. 
-    No "corporate" jargon—keep it conversational but sharp.
+    A clean, structured Markdown newsletter. 
+    - Use H1 for the Main Title.
+    - Use H2 for Section Headers (Deep Dive, Radar, Delhi Angle).
+    - Use horizontal rules (---) to separate sections.
+    - No JSON or code blocks, just pure, beautifully formatted Markdown.
   agent: newsletter_writer
 
 review_task:
   description: >
     Review the draft. Check for factual accuracy and tone.
-    Only provide the JSON output for this task, not any other thing or review.
+    Only provide the straight JSON output without markdown for this task, not any other thing or review.
     1. "content" : the content of the news letter
     2. "status": either "APPROVED" or "REJECTED"
     3. "feedback": specific instructions on what to fix (if rejected) or "None" (if approved).
   expected_output: >
-    **IMPORTANT** The output should be a single JSON object without any markdown block like (''').
+    {
+      "content": "# The Geonews Weekly...",
+      "status": "APPROVED",
+      "feedback": "None"
+    }
+    
+    DO NOT wrap the output in ```json ... ```.
   agent: quality_assurance_editor
