@@ -21,3 +21,6 @@ build-backend = "hatchling.build"
 
 [tool.crewai]
 type = "flow"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/geonews_flow"]
