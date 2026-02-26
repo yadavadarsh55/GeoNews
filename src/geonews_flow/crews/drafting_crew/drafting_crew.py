@@ -4,7 +4,7 @@ from typing import List, Tuple, Any
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai.mcp import MCPServerStdio
 from pydantic import BaseModel, Field
-import os, json
+import os, json, re
 
 
 geonews_mcp = MCPServerStdio(
@@ -31,7 +31,10 @@ class ReviewSchema(BaseModel):
 
 def validate_json_output(result) -> Tuple[bool, Any]:
     try:
-        data = json.loads(result.raw)  
+        match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', result.raw)
+        if match:
+            cleaned_data = match.group(1).strip()
+            return (True, cleaned_data)
         return (True, result.raw)
     except:
         return (False, result.raw) 
