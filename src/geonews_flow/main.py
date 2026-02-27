@@ -2,6 +2,7 @@ import json
 import datetime as dt
 from pydantic import BaseModel
 from crewai.flow.flow import Flow, listen, start, router
+from crewai.flow.persistence import persist
 from .crews.drafting_crew.drafting_crew import DraftingCrew
 from .crews.publishing_crew.publishing_crew import PublishingCrew
 
@@ -18,6 +19,7 @@ class GeoNewsFlowState(BaseModel):
     retry_count : int = 0
 
 
+@persist()
 class GeoNewsFlow(Flow[GeoNewsFlowState]):
 
     def draft_newsletter(self):
