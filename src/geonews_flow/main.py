@@ -1,14 +1,36 @@
-import json
+import json, os
+import psycopg
 import datetime as dt
 from pydantic import BaseModel
+from dotenv import load_dotenv
 from crewai.flow.flow import Flow, listen, start, router
 from crewai.flow.persistence import persist
 from .crews.drafting_crew.drafting_crew import DraftingCrew
 from .crews.publishing_crew.publishing_crew import PublishingCrew
 
+load_dotenv()
+
 MAX_RETRY = 3
 
 THRESHOLD_DATE = str(dt.date.today() - dt.timedelta(days=7))
+
+USER_DB_URL = f"postgresql://{os.environ['db_username']}:{os.environ["db_password"]}@{os.environ["db_host"]}/neondb?sslmode=require&channel_binding=require"
+
+def get_newsletter_subscribers(conn_string):
+    with psycopg.connect(conninfo=conn_string) as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                    SELECT email from newsletter_subscribers
+                ''')
+            users = cur.fetchall()
+            cur.close()
+
+    users_list = []
+    for user in users:
+        users_list.append(user[0])
+
+    return users_list
+
 
 class GeoNewsFlowState(BaseModel):
 
@@ -67,10 +89,12 @@ class GeoNewsFlow(Flow[GeoNewsFlowState]):
 
     @listen("ready_to_publish")
     def publish_newsletter(self):
+
+        subscribers = get_newsletter_subscribers(USER_DB_URL)
         
         result = PublishingCrew().crew().kickoff(inputs={
             'content': self.state.content,
-            'recipient_emails_list': ["la8085978@gmail.com", "gupta.akshita299@gmail.com"] 
+            'recipient_emails_list': subscribers 
         })
         
         return result
