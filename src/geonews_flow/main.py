@@ -14,7 +14,7 @@ MAX_RETRY = 3
 
 THRESHOLD_DATE = str(dt.date.today() - dt.timedelta(days=7))
 
-USER_DB_URL = f"postgresql://{os.environ['db_username']}:{os.environ["db_password"]}@{os.environ["db_host"]}/neondb?sslmode=require&channel_binding=require"
+USER_DB_URL = f"postgresql://{os.environ['DB_USERNAME']}:{os.environ["DB_PASSWORD"]}@{os.environ["DB_HOST"]}/neondb?sslmode=require&channel_binding=require"
 
 def get_newsletter_subscribers(conn_string):
     with psycopg.connect(conninfo=conn_string) as conn:
